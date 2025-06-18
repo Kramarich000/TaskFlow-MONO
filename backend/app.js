@@ -58,8 +58,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(frontendDir, 'index.html'));
 });
 
-app.use((req, res) => {
-  res.status(404).json({ error: 'Ресурс не найден' });
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(404).json({ error: 'API не найден' });
+  }
+  next();
 });
 
 export default app;
