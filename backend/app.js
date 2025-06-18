@@ -34,6 +34,10 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
 });
@@ -44,8 +48,8 @@ const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), {
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(morgan('dev'));
 const routes = await loadRoutes();
-routes.forEach(({ path, router }) => {
-  app.use(path, router);
+routes.forEach(({ router }) => {
+  app.use(router);
 });
 
 app.use((err, req, res, next) => {
