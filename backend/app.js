@@ -37,7 +37,8 @@ app.use(cookieParser());
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+const frontendDir = path.resolve(__dirname, '../frontend/dist');
+app.use(express.static(frontendDir));
 
 const routes = await loadRoutes();
 routes.forEach(({ router }) => {
@@ -45,8 +46,9 @@ routes.forEach(({ router }) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
+  res.sendFile(path.join(frontendDir, 'index.html')); 
 });
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
