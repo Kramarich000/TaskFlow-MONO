@@ -45,11 +45,6 @@ routes.forEach(({ router }) => {
   app.use(router);
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendDir, 'index.html')); 
-});
-
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   const status = err.status || 500;
@@ -57,6 +52,10 @@ app.use((err, req, res, next) => {
     error: err.message || 'Внутренняя ошибка сервера',
     ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
   });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendDir, 'index.html'));
 });
 
 app.use((req, res) => {
