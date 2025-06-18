@@ -1,0 +1,235 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  margin: 0 auto;
+  width: 100% !important;
+  height: 100% !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+
+a {
+  text-decoration: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: gray;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  font-family: 'Inter', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  min-width: 320px;
+  /* min-height: 100vh; */
+  /* flex-direction: column; */
+  background-color: rgb(199, 199, 199);
+  color: #111111;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: black !important;
+  transition: background-color 50000s ease-in-out 0s !important;
+  border-bottom: 1px solid black !important;
+}
+
+input.peer:not(:placeholder-shown)+label,
+input.peer:focus+label {
+  top: 0;
+  font-size: 0.75rem;
+  color: #888888;
+}
+
+scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+scrollbar-thumb {
+  background-color: #111111;
+  border-radius: 10px;
+}
+
+scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  background: linear-gradient(to bottom, #111111, white);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: linear-gradient(to right, #111111, white);
+}
+
+
+::-webkit-scrollbar-track {
+  width: 8px;
+  height: 8px;
+}
+
+.swiper-horizontal>.swiper-scrollbar,
+.swiper-scrollbar.swiper-scrollbar-horizontal {
+  display: none !important;
+}
+
+.accordion-btn[aria-expanded="true"] .accordion__icon {
+  transform: rotate(180deg);
+}
+
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-btn[aria-expanded="true"]~.accordion-panel {
+  max-height: 500px;
+}
+
+.peer:not(:placeholder-shown),
+.peer:focus {
+  border-color: #111111 !important;
+  border-bottom-color: #111111 !important;
+  border-radius: 0.5rem;
+}
+
+/* 
+.Toastify__toast {
+  margin-top: 75px;
+} */
+
+.flatpickr-calendar,
+.flatpickr-months .flatpickr-month,
+span.flatpickr-weekday,
+.flatpickr-monthDropdown-months,
+.flatpickr-monthDropdown-month {
+  background-color: #111111 !important;
+  text-align: center !important;
+}
+
+.flatpickr-calendar {
+  margin-top: 4px !important;
+}
+
+
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+  fill: #fff !important;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-months .flatpickr-next-month:hover {
+  background-color: rgba(192, 187, 167, 0.1) !important;
+}
+
+.flatpickr-monthDropdown-month {
+  background: #000 !important;
+}
+
+.arrowUp,
+.arrowDown {
+  border: 1px solid transparent !important;
+  padding: 2px !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+  background: white !important;
+  color: #000 !important;
+  border-color: transparent !important;
+}
+
+.flatpickr-day.inRange,
+.flatpickr-day.prevMonthDay.inRange,
+.flatpickr-day.nextMonthDay.inRange,
+.flatpickr-day.today.inRange,
+.flatpickr-day.prevMonthDay.today.inRange,
+.flatpickr-day.nextMonthDay.today.inRange,
+.flatpickr-day:hover,
+.flatpickr-day.prevMonthDay:hover,
+.flatpickr-day.nextMonthDay:hover,
+.flatpickr-day:focus,
+.flatpickr-day.prevMonthDay:focus,
+.flatpickr-day.nextMonthDay:focus {
+  background-color: #888888 !important;
+  border-color: #888888 !important;
+}
+
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus {
+  color: white !important;
+}
