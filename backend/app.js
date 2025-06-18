@@ -16,6 +16,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: [
+        "'self'",
+        'https://taskflow-mono.onrender.com',
+        'https://taskflow-api-gavu.onrender.com',
+        'http://localhost:8080',
+      ],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      imgSrc: ["'self'", 'data:'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'], // добавлено разрешение для data URI
+    },
+  }),
+);
 
 const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), {
   flags: 'a',
@@ -28,9 +45,7 @@ app.use(morgan('dev'));
 //   app.use('/', limiterMiddleware);
 // }
 
-app.use(helmet());
 app.use(hpp());
-app.use(corsMiddleware);
 app.use(statusMonitor());
 app.use(compression());
 app.use(cookieParser());
@@ -41,8 +56,16 @@ const frontendDir = path.resolve(__dirname, '../frontend/dist');
 app.use(express.static(frontendDir));
 
 const routes = await loadRoutes();
-routes.forEach(({ router }) => {
-  app.use(router);
+routes.forEach(({ path: routePath, router }) => {
+  if (routePath.startsWith('/api')) {
+    app.use(routePath, corsMiddleware, router);
+  } else {
+    app.use(routePath, router);
+  }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendDir, 'index.html'));
 });
 
 app.use((err, req, res, next) => {
@@ -52,17 +75,6 @@ app.use((err, req, res, next) => {
     error: err.message || 'Внутренняя ошибка сервера',
     ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
   });
-});
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendDir, 'index.html'));
-});
-
-app.use((req, res, next) => {
-  if (req.originalUrl.startsWith('/api')) {
-    return res.status(404).json({ error: 'API не найден' });
-  }
-  next();
 });
 
 export default app;

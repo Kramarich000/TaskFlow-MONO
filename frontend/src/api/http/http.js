@@ -2,10 +2,7 @@ import { useAuthStore } from '@store/authStore';
 import { showToast } from '@utils/toast/showToast';
 import axios from 'axios';
 
-export const baseURL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://taskflow-api-gavu.onrender.com'
-    : 'http://localhost:8080';
+export const baseURL = '';
 const api = axios.create({ baseURL, withCredentials: true });
 
 const refreshClient = axios.create({

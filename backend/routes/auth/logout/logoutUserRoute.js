@@ -20,7 +20,7 @@ router.post('/api/auth/logout', authenticateMiddleware, async (req, res) => {
     res.clearCookie('log___tf_12f_t2', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
       path: '/',
     });
 
