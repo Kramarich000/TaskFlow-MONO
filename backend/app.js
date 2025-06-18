@@ -8,24 +8,29 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import morgan from 'morgan';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import statusMonitor from 'express-status-monitor';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-import helmet from 'helmet';
-import hpp from 'hpp';
-import statusMonitor from 'express-status-monitor';
+const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), {
+  flags: 'a',
+});
 
-app.use(helmet());
-app.use(hpp());
-app.use(corsMiddleware);
+app.use(morgan('combined', { stream: accessLogStream }));
+app.use(morgan('dev'));
 
 // if (process.env.NODE_ENV === 'production') {
 //   app.use('/', limiterMiddleware);
 // }
 
+app.use(helmet());
+app.use(hpp());
+app.use(corsMiddleware);
 app.use(statusMonitor());
 app.use(compression());
 app.use(cookieParser());
@@ -34,18 +39,13 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
-});
-
-const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), {
-  flags: 'a',
-});
-app.use(morgan('combined', { stream: accessLogStream }));
-app.use(morgan('dev'));
 const routes = await loadRoutes();
 routes.forEach(({ router }) => {
   app.use(router);
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
 });
 
 app.use((err, req, res, next) => {
