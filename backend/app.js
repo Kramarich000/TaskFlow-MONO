@@ -4,9 +4,13 @@ import corsMiddleware from './middlewares/http/corsMiddleware.js';
 import { limiterMiddleware } from './middlewares/http/limiterMiddleware.js';
 import loadRoutes from './utils/routesLoader/loadRoutes.js';
 import cookieParser from 'cookie-parser';
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import morgan from 'morgan';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -27,6 +31,12 @@ app.use(compression());
 app.use(cookieParser());
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
+});
 
 const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), {
   flags: 'a',
